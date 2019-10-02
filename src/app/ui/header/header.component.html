@@ -1,29 +1,27 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="/">Home</a>
+    <a class="navbar-brand" routerLink="/">Home</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ml-auto">
-            <!-- <li class="nav-item">
-                <a class="nav-link" href="#">sign up</a>
-            </li> -->
-            <li class="nav-item">
-                <!-- <a class="nav-link" href="#">login</a> -->
-                <a class="navbar-brand" href="#" *ngIf="authService.userData as user; else guest">
-                    <img src="{{user.photoURL}}"
-                    width="30" height="30" 
-                    alt="{{user.displayName}}"
-                    popoverTitle="Hello, {{user.displayName}}"
-                    [autoClose]="'outside'" [ngbPopover]="profilePopContent"
-                    >
-                    <!-- <fa-icon [icon]="faUser"></fa-icon> -->
+            <li class="nav-item ml-2">
+                <a class="nav-link" routerLink="/new-track" placement="bottom" ngbTooltip="make a track">
+                    <fa-icon [icon]="faPlusSquare"></fa-icon>
+                </a>
+            </li>
+            <li class="nav-item ml-2">
+                <a class="navbar-brand" *ngIf="authService.userData as user; else guest" placement="bottom"
+                    ngbTooltip="{{user.displayName}}'s profile">
+                    <img src="{{user.photoURL}}" width="30" height="30" alt="{{user.displayName}}"
+                        popoverTitle="Hello, {{user.displayName}}" [autoClose]="'outside'"
+                        [ngbPopover]="profilePopContent">
                     <ng-template #profilePopContent>
                         <button type="button" (click)="authService.SignOut()"
                             class="btn btn-outline-secondary btn-lg btn-block">log out</button>
                     </ng-template>
-                    
+
                 </a>
                 <ng-template #guest>
                     <button type="button" class="btn btn-outline-secondary" popoverTitle="Choice your login type"
@@ -36,8 +34,6 @@
                         <!-- <button type="button" class="btn btn-outline-secondary btn-lg btn-block">Block level button</button> -->
                     </ng-template>
                 </ng-template>
-
-
             </li>
         </ul>
     </div>

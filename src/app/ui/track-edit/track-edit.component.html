@@ -1,0 +1,35 @@
+<div class="container py-3">
+  <h5>New</h5>
+  <form class="">
+    <!-- <div class="form-group">
+      <label for="exampleInputEmail1">Track Title</label>
+      <input type="email" class="form-control" id="Track Title" aria-describedby="emailHelp" placeholder="Enter email">
+      <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+    </div>
+    <div class="custom-file">
+      <input type="file" class="custom-file-input" id="customFile">
+      <label class="custom-file-label" for="customFile">Choose file</label>
+    </div> -->
+    <div class="uploadfilecontainer p-5 w-100 btn btn-lg btn-outline-primary" (click)="fileInput.click()" appDragDrop (onFileDropped)="uploadFile($event)">
+      <h1><fa-icon [icon]="faFileUpload"></fa-icon></h1>
+      <p>Drag and Drop images..</p>
+      <input hidden type="file" #fileInput (change)="uploadFile($event.target.files)">
+    </div>
+    <div class="card-columns mt-3" >
+      <!-- <button class="delete-file" ">
+        <img src="../../assets/Recycle_Bin_Full.png">
+      </button> -->
+
+      <div class="card" *ngFor="let file of files;let i= index">
+          <!-- <img src="{{ file }}" class="card-img-top" alt="..."> -->
+          <div class="card-body">
+            <!-- <h5 class="card-title">Card title</h5> -->
+            <p class="card-text">{{ file }}</p>
+            <button class="btn btn-outline-danger" (click)="deleteAttachment(i)">delete</button>
+          </div>
+        </div>
+    </div>
+  </form>
+
+
+</div>
