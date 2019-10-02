@@ -5,23 +5,23 @@
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
+        <ul class="navbar-nav ml-auto">
             <!-- <li class="nav-item">
                 <a class="nav-link" href="#">sign up</a>
             </li> -->
             <li class="nav-item">
                 <!-- <a class="nav-link" href="#">login</a> -->
                 <a class="navbar-brand" href="#" *ngIf="authService.userData as user; else guest">
-                    <img src="{{user.photoURL}}" 
+                    <img src="{{user.photoURL}}"
                     width="30" height="30" 
                     alt="{{user.displayName}}"
                     popoverTitle="Hello, {{user.displayName}}"
                     [autoClose]="'outside'" [ngbPopover]="profilePopContent"
                     >
+                    <!-- <fa-icon [icon]="faUser"></fa-icon> -->
                     <ng-template #profilePopContent>
                         <button type="button" (click)="authService.SignOut()"
                             class="btn btn-outline-secondary btn-lg btn-block">log out</button>
-                        
                     </ng-template>
                     
                 </a>
