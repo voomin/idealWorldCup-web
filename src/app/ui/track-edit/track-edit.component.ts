@@ -2,6 +2,7 @@ import { Component, OnInit, Directive, Output, Input, EventEmitter, HostBinding,
 import { faFileUpload } from '@fortawesome/free-solid-svg-icons';
 import { UploadService } from 'src/app/services/upload.service';
 import { Upload } from 'src/app/models/upload';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-track-edit',
@@ -13,8 +14,14 @@ export class TrackEditComponent implements OnInit {
   files: any = [];
 
   constructor(
-    private uploadService: UploadService
-  ) { }
+    private uploadService: UploadService,
+    private authService : AuthService, 
+  ) {
+    // let userData = this.authService.userData;
+    const userData = JSON.parse(localStorage.getItem('user'));
+    console.log(userData);
+
+  }
 
   ngOnInit() {
   }
@@ -25,7 +32,7 @@ export class TrackEditComponent implements OnInit {
       this.files.push(element.name)
 
       const currentUpload = new Upload(event[index]);
-      this.uploadService.pushUpload(currentUpload)
+      this.uploadService.pushUpload(currentUpload);
     }  
   }
   deleteAttachment(index) {

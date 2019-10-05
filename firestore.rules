@@ -3,6 +3,15 @@ service cloud.firestore {
     match /users/{uid} {
       allow read, write: if isOwner(uid);
     }
+    match /tracks/{trackId}{
+      allow read: if true;
+      allow write: if resource.data.author == request.auth.uid;
+    }
+    match /cards/{cardId}{
+      allow read: if true;
+      allow write: if get(/databases/$(database)/documents/tracks/$(resource.data.trackId)).data.author == request.auth.uid;
+    }
+
     function isOwner(userId){
       return request.auth.uid == userId;
     }
