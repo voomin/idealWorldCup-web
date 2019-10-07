@@ -6,6 +6,9 @@ import { AuthService } from 'src/app/services/auth.service';
 import { User } from 'src/app/models/user';
 import { TrackService } from 'src/app/services/track.service';
 import { Track } from 'src/app/models/track';
+import { CardService } from 'src/app/services/card.service';
+import { Card } from 'src/app/models/card';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-track-edit',
@@ -16,11 +19,13 @@ export class TrackEditComponent implements OnInit {
   faFileUpload = faFileUpload;
   files: any = [];
   public makingTrack;
+  public makingCards;
 
   constructor(
     private uploadService: UploadService,
     private authService: AuthService,
     private trackService: TrackService,
+    private cardService: CardService,
   ) {
 
   }
@@ -28,7 +33,12 @@ export class TrackEditComponent implements OnInit {
   ngOnInit() {
     const userData: User = this.authService.getUserDataORNull();
     if (!userData) { return ; }
-    this.makingTrack = this.trackService.getMakingTrack(userData.uid);
+    this.makingTrack = this.trackService.getMakingTrack(userData.uid)
+    .pipe(map((track:Track) => {
+      this.makingCards = this.cardService.getCardsinATrack(track.id);
+      return track;
+    }));
+
   }
   makingTrackCheck(){
     // const userData: User = this.authService.getUserDataORNull();
@@ -54,13 +64,20 @@ export class TrackEditComponent implements OnInit {
     //   });
     // }
   }
-  uploadFile(event) {
+  uploadFile(trackId: string, event) {
     for (let index = 0; index < event.length; index++) {
       const element = event[index];
-      this.files.push(element.name)
+      const fileName: string = element.name;
+      this.files.push(fileName)
 
       const currentUpload = new Upload(event[index]);
-      this.uploadService.pushUpload(currentUpload);
+      const card: Card = {
+        title: fileName,
+        trackId: trackId,
+        imgTotalSize: currentUpload.file.size,
+      };
+      // this.uploadService.pushUpload(currentUpload);
+      this.cardService.addCard(card, currentUpload);
     }  
   }
   deleteAttachment(index) {

@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-// import { AngularFire} from '@angular/fire/'
 import { Upload } from '../models/upload';
 import * as firebase from 'firebase';
 
@@ -18,7 +17,7 @@ export class UploadService {
   pushUpload(upload: Upload) {
     let storageRef = firebase.storage().ref();
     let uploadTask = storageRef.child(`${this.basePath}/${upload.file.name}`).put(upload.file);
-
+    console.log(upload);
     uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
       (snapshot) =>  {
         // upload in progress

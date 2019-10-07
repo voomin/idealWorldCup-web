@@ -20,6 +20,7 @@ export class TrackService {
     return this.tracksCollection.add(track)
       .then((ref) => {
         // console.log('success');
+        ref.set({id: ref.id}, {merge: true});
         return ref;
       })
       .catch(err => {

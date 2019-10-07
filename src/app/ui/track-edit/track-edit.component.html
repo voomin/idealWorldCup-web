@@ -9,21 +9,26 @@
         <fa-icon [icon]="faFileUpload"></fa-icon>
       </h1>
       <p>Drag and Drop images..</p>
-      <input hidden type="file" #fileInput multiple (change)="uploadFile($event.target.files)">
+      <input hidden type="file" #fileInput multiple (change)="uploadFile(track.id, $event.target.files)">
     </div>
     <div class="card-columns mt-3">
       <!-- <button class="delete-file" ">
         <img src="../../assets/Recycle_Bin_Full.png">
       </button> -->
-
-      <div class="card" *ngFor="let file of files;let i= index">
-        <!-- <img src="{{ file }}" class="card-img-top" alt="..."> -->
-        <div class="card-body">
-          <!-- <h5 class="card-title">Card title</h5> -->
-          <p class="card-text">{{ file }}</p>
-          <button class="btn btn-outline-danger" (click)="deleteAttachment(i)">delete</button>
-        </div>
-      </div>
+      <ng-container *ngIf="makingCards | async as cards">
+          <div class="card" *ngFor="let card of cards; let i= index">
+            <img src="{{ card.photoURL }}" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">{{ card.title }}</h5>
+              <p class="card-text">{{(card.imgUploadingSize / card.imgTotalSize)*100}}</p>
+              <button class="btn btn-outline-danger">delete</button>
+            </div>
+          </div>
+          <!-- <div *ngFor="let card of makingCards | async;">
+              <img src="{{ card.photoURL }}" class="card-img-top" alt="...">
+          </!-->
+      </ng-container>
+      
     </div>
     <div class="form-group">
         <label for="exampleInputTitle">Title</label>

@@ -2,7 +2,9 @@ import { Track } from './track';
 
 export interface Card {
   id?: string;
-  name: string;
-  trackId: Track['id'];
-  photoURL: string;
+  title: string;
+  trackId: string;
+  photoURL?: string;
+  imgTotalSize?: number;
+  imgUploadedSize?: number;
 }
