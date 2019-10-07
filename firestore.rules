@@ -5,7 +5,8 @@ service cloud.firestore {
     }
     match /tracks/{trackId}{
       allow read: if true;
-      allow write: if resource.data.author == request.auth.uid;
+      allow update, delete: if resource.data.author == request.auth.uid;
+      allow create: if request.auth.uid != null;
     }
     match /cards/{cardId}{
       allow read: if true;

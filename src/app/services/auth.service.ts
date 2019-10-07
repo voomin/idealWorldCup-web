@@ -18,6 +18,7 @@ export class AuthService {
       this.afAuth.authState.subscribe(user => {
         if (user) {
           this.userData = user;
+          // this.afs.doc<User>(`users/${user.uid}`).valueChanges();
           localStorage.setItem('user', JSON.stringify(this.userData));
           // JSON.parse(localStorage.getItem('user'));
         } else {
@@ -26,6 +27,10 @@ export class AuthService {
           //JSON.parse(localStorage.getItem('user'));
         }
       });
+    }
+    public getUserDataORNull(){
+      const user: User = JSON.parse(localStorage.getItem('user'));
+      return user;
     }
     GoogleAuth() {
       return this.AuthLogin(new auth.GoogleAuthProvider());
@@ -51,6 +56,18 @@ export class AuthService {
         emailVerified: user.emailVerified
       };
       return userRef.set(userData, {
+        merge: true
+      });
+    }
+    setMakingTrackId(makingTrackId: string){
+      const user = this.getUserDataORNull();
+      if (!user) {
+        return;
+      }
+      const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}`);
+      return userRef.set({
+        makingTrackID: makingTrackId
+      }, {
         merge: true
       });
     }

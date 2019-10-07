@@ -8,27 +8,34 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class TrackService {
-  tracksCollection: AngularFirestoreCollection<Track>;
+  private tracksCollection: AngularFirestoreCollection<Track>;
   tracks: Observable<Track[]>;
   constructor(
-    private _afs: AngularFirestore,
+    private afs: AngularFirestore,
   ) { 
-    this.tracksCollection = _afs.collection<Track>('tracks', ref => ref.orderBy('createdAt', 'desc'));
+    this.tracksCollection = afs.collection<Track>('tracks');
     this.tracks = this.tracksCollection.valueChanges();
   }
-  public addTrack(track: Track) {
-    return this.tracksCollection
-      .add(track)
-      .then(() => {
-        return 'success';
+  addTrack(track: Track) {
+    return this.tracksCollection.add(track)
+      .then((ref) => {
+        // console.log('success');
+        return ref;
       })
       .catch(err => {
+        // console.log('fail');
+        // console.log(err);
         return err;
       });
   }
   public getTrack(id: string) {
     return this.tracks.pipe(
       map((tracks: Track[]) => tracks.find(track => track.id === id))
+    );
+  }
+  public getMakingTrack(uid: string){
+    return this.tracks.pipe(
+      map((tracks: Track[]) => tracks.find(track => track.author === uid && track.status === 'making'))
     );
   }
 }
