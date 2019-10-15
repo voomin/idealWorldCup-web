@@ -63,6 +63,12 @@ export class CardService {
       .catch((err) => { alert(err); })
       .finally(() => { });
   }
+  updateCardTitle(cardId: string, title: string){
+    return this.afs.doc(`cards/${cardId}`).update({title : title})
+    .then(() => { console.log('카드제목 바꾸기 성공'); })
+    .catch((err) => { console.log(err); })
+    .finally(() => { });
+  }
   public getCardsinATrack(trackId: string){
     return this.cards.pipe(
       map((cards: Card[]) => cards.filter(card => card.trackId === trackId))
