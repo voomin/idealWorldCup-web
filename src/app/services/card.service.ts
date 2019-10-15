@@ -42,7 +42,7 @@ export class CardService {
             // upload success
             uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
               const imageUrl = downloadURL;
-              ref.set({photoURL: imageUrl}, {merge: true});
+              ref.set({id: cardId, photoURL: imageUrl}, {merge: true});
             });
           }
         );
@@ -52,7 +52,18 @@ export class CardService {
         return err;
       });
   }
-  public getCardsinATrack(trackId:string){
+  deleteCard(cardId: string) {
+    return this.afs.doc(`cards/${cardId}`).delete()
+      .then(() => { 
+        firebase.storage().ref(`cards/${cardId}`).delete()
+        .then(() => {
+          console.log('이미지와 카드정보 삭제 완료');
+        });
+      })
+      .catch((err) => { alert(err); })
+      .finally(() => { });
+  }
+  public getCardsinATrack(trackId: string){
     return this.cards.pipe(
       map((cards: Card[]) => cards.filter(card => card.trackId === trackId))
       );

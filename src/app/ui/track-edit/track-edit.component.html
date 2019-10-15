@@ -1,59 +1,75 @@
-<div class="container py-3" *ngIf="makingTrack | async as track; else newTrack">
-  <h5>
-    Making
-  </h5>
-  <form class="">
-    <div class="uploadfilecontainer p-5 w-100 btn btn-lg btn-outline-primary" (click)="fileInput.click()" appDragDrop
-      (onFileDropped)="uploadFile($event)">
-      <h1>
-        <fa-icon [icon]="faFileUpload"></fa-icon>
-      </h1>
-      <p>Drag and Drop images..</p>
-      <input hidden type="file" #fileInput multiple (change)="uploadFile(track.id, $event.target.files)">
-    </div>
-    <div class="card-columns mt-3">
-      <!-- <button class="delete-file" ">
-        <img src="../../assets/Recycle_Bin_Full.png">
-      </button> -->
-      <ng-container *ngIf="makingCards | async as cards">
-          <div class="card" *ngFor="let card of cards; let i= index">
-            <img src="{{ card.photoURL }}" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">{{ card.title }}</h5>
-              <p class="card-text">{{(card.imgUploadingSize / card.imgTotalSize)*100}}</p>
-              <button class="btn btn-outline-danger">delete</button>
-            </div>
+<ng-container *ngIf="makingTrack | async as track; else newTrack">
+<ng-container *ngIf="makingCards | async as cards">
+  <div class="container py-3">
+      <h5>
+        Making
+      </h5>
+      <form class="">
+        <div class="uploadfilecontainer p-5 w-100 btn btn-lg btn-outline-primary" (click)="fileInput.click()" appDragDrop
+          (onFileDropped)="uploadFile($event)">
+          <h1>
+            <fa-icon [icon]="faFileUpload"></fa-icon>
+          </h1>
+          <p>Drag and Drop images..</p>
+          <input hidden type="file" #fileInput multiple (change)="uploadFile(track.id, $event.target.files)">
+        </div>
+        <div class="card-columns mt-3">
+          <!-- <button class="delete-file" ">
+            <img src="../../assets/Recycle_Bin_Full.png">
+          </button> -->
+          <ng-container *ngIf="cards">
+              <div class="card" *ngFor="let card of cards; let i= index">
+                <p class="card-text" *ngIf="(card.imgUploadingSize / card.imgTotalSize)*100 as percentNum">
+                  <ngb-progressbar *ngIf="100 > percentNum;" type="info" [value]="percentNum" [striped]="true" [animated]="true">
+                    <i>{{percentNum}}%</i>
+                  </ngb-progressbar>
+                </p>
+                <p *ngIf="!card.imgUploadingSize"><ngb-progressbar type="info" [value]="100" height=".5rem" [striped]="true" [animated]="true"></ngb-progressbar></p>
+                <img src="{{ card.photoURL }}" class="card-img-top" alt="...">
+                <div class="card-body">
+                  <div class="form-group">
+                      <label for="cardInputTitle" class="card-title">카드제목</label>
+                      <input type="text" class="form-control" id="cardInputTitle" [value]="card.title">
+                      <!-- <small id="emailHelp" class="form-text text-muted">이미지에 대한 글귀를 입력해주세요.</small> -->
+                    </div>
+                  <p class="small text-muted text-right font-italic ">
+                    <span (click)="deleteCard(card.id)" style="cursor: pointer;" >삭제하기 : {{card.id}}</span>
+                  </p>
+                </div>
+              </div>
+              <!-- <div *ngFor="let card of makingCards | async;">
+                  <img src="{{ card.photoURL }}" class="card-img-top" alt="...">
+              </!-->
+          </ng-container>
+          
+        </div>
+        <div class="form-group">
+            <label for="exampleInputTitle">Title</label>
+            <input 
+            type="title" 
+            class="form-control" 
+            id="exampleInputTitle" 
+            aria-describedby="titleHelp" 
+            placeholder="Enter Title"
+            value="{{track.title}}"
+            >
           </div>
-          <!-- <div *ngFor="let card of makingCards | async;">
-              <img src="{{ card.photoURL }}" class="card-img-top" alt="...">
-          </!-->
-      </ng-container>
-      
+          <div class="form-group">
+              <label for="exampleFormControlTextarea1">Info</label>
+              <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Enter information about this Track"></textarea>
+          </div>
+          <!-- <div class="form-group form-check">
+            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+            <label class="form-check-label" for="exampleCheck1">Check me out</label>
+          </div> -->
+          <button type="submit" class="btn btn-outline-secondary mr-2">save</button>
+          <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    
     </div>
-    <div class="form-group">
-        <label for="exampleInputTitle">Title</label>
-        <input 
-        type="title" 
-        class="form-control" 
-        id="exampleInputTitle" 
-        aria-describedby="titleHelp" 
-        placeholder="Enter Title"
-        value="{{track.title}}"
-        >
-      </div>
-      <div class="form-group">
-          <label for="exampleFormControlTextarea1">Info</label>
-          <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Enter information about this Track"></textarea>
-      </div>
-      <!-- <div class="form-group form-check">
-        <input type="checkbox" class="form-check-input" id="exampleCheck1">
-        <label class="form-check-label" for="exampleCheck1">Check me out</label>
-      </div> -->
-      <button type="submit" class="btn btn-outline-secondary mr-2">save</button>
-      <button type="submit" class="btn btn-primary">Submit</button>
-  </form>
+</ng-container>
+</ng-container>
 
-</div>
 
 <ng-template #newTrack>
   <button class="btn btn-primary">new Track</button>

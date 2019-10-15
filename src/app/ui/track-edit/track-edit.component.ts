@@ -40,7 +40,7 @@ export class TrackEditComponent implements OnInit {
     }));
 
   }
-  makingTrackCheck(){
+  makingTrackCheck() {
     // const userData: User = this.authService.getUserDataORNull();
     // if (!userData) { return ; }
 
@@ -74,6 +74,7 @@ export class TrackEditComponent implements OnInit {
       const card: Card = {
         title: fileName,
         trackId: trackId,
+        imgName: fileName,
         imgTotalSize: currentUpload.file.size,
       };
       // this.uploadService.pushUpload(currentUpload);
@@ -81,7 +82,10 @@ export class TrackEditComponent implements OnInit {
     }  
   }
   deleteAttachment(index) {
-    this.files.splice(index, 1)
+    this.files.splice(index, 1);
+  }
+  deleteCard(id: string) {
+    return this.cardService.deleteCard(id);
   }
 
   @Output() onFileDropped = new EventEmitter<any>();

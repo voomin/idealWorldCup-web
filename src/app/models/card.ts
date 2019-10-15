@@ -5,6 +5,7 @@ export interface Card {
   title: string;
   trackId: string;
   photoURL?: string;
+  imgName?: string;
   imgTotalSize?: number;
   imgUploadedSize?: number;
 }
