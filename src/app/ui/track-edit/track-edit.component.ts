@@ -17,6 +17,7 @@ import * as _ from "lodash";
   styleUrls: ['./track-edit.component.css']
 })
 export class TrackEditComponent implements OnInit {
+  userData: User;
   faFileUpload = faFileUpload;
   dropzoneActive:boolean = false;
   
@@ -34,13 +35,11 @@ export class TrackEditComponent implements OnInit {
   }
 
   ngOnInit() {
-    const userData: User = this.authService.getUserDataORNull();
-    if (!userData) { return ; }
-    this.makingTrack = this.trackService.getMakingTrack(userData.uid)
-    .pipe(map((track:Track) => {
-      this.makingCards = this.cardService.getCardsinATrack(track.id);
-      return track;
-    }));
+    this.makingTrack = this.trackService.getMakingTrack()
+      .pipe(map((track:Track) => {
+        this.makingCards = this.cardService.getCardsinATrack(track.id);
+        return track;
+      }));
 
   }
   dropzoneState($event: boolean) {
@@ -48,34 +47,24 @@ export class TrackEditComponent implements OnInit {
   }
   handleDrop(trackId: string, fileList: FileList) {
     let filesIndex = _.range(fileList.length);
-
-    _.each(filesIndex, (index) => {
-      const currentUpload = new Upload(fileList[index]);
-      const card: Card = {
-        title: currentUpload.name,
-        trackId: trackId,
-        imgName: currentUpload.name,
-        imgTotalSize: currentUpload.file.size,
-      };
-      this.cardService.addCard(card, currentUpload);
-    });
+    _.each(filesIndex, (index) => this.cardAdd(trackId, fileList[index]) );
   }
   uploadFile(trackId: string, event: any) {
-    for (let index = 0; index < event.length; index++) {
-      const element = event[index];
-      const fileName: string = element.name;
-      this.files.push(fileName)
-
-      const currentUpload = new Upload(event[index]);
-      const card: Card = {
-        title: fileName,
-        trackId: trackId,
-        imgName: fileName,
-        imgTotalSize: currentUpload.file.size,
-      };
-      // this.uploadService.pushUpload(currentUpload);
-      this.cardService.addCard(card, currentUpload);
-    }  
+    for (let index = 0; index < event.length; index++) { 
+      this.cardAdd(trackId, event[index]);
+    }
+  }
+  private cardAdd(trackId:string, file:File) {
+    const currentUpload = new Upload(file);
+    const card: Card = {
+      title: currentUpload.file.name,
+      trackId: trackId,
+      uploadAt: new Date().getTime(),
+      uploadUser: this.userData.uid,
+      imgName: currentUpload.file.name,
+      imgTotalSize: currentUpload.file.size,
+    };
+    this.cardService.addCard(card, currentUpload);
   }
   deleteAttachment(index) {
     this.files.splice(index, 1);
@@ -93,8 +82,6 @@ export class TrackEditComponent implements OnInit {
   }
   trackInfoChange(id: string, event: any) {
     const changedTrackInfo = event.target.value;
-    console.log(changedTrackInfo);
     return this.trackService.updateTrackInfo(id, changedTrackInfo);
   }
-  
 }

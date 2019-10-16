@@ -8,9 +8,9 @@ export interface Track {
   like: number;
   hate: number;
   createdAt: number;
-  status: trackStatuses;
+  status: TrackStatusType;
 }
-enum trackStatuses {
+export enum TrackStatusType {
   making = 'making',
   show = 'show',
   hide = 'hide',
