@@ -39,4 +39,14 @@ export class TrackService {
       map((tracks: Track[]) => tracks.find(track => track.author === uid && track.status === 'making'))
     );
   }
+  public updateTrackTitle(trackId: string, title: string) {
+    return this.afs.doc(`tracks/${trackId}`).update({ title: title })
+      .then(() => { console.log(`정상적으로 변경되었습니다.`); })
+      .catch((err) => { console.log(err); });
+  }
+  public updateTrackInfo(trackId: string, info: string) {
+    return this.afs.doc(`tracks/${trackId}`).update({ info: info })
+      .then(() => { console.log(`정상적으로 변경되었습니다.`); })
+      .catch((err) => { console.log(err); });
+  }
 }

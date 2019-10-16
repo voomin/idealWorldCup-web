@@ -11,11 +11,13 @@ import { environment } from '../environments/environment';
 
 import { AppRoutingModule, routingComponents } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { FileDropDirective } from './utils/file-drop.directive';
 
 @NgModule({
   declarations: [
     AppComponent,
     routingComponents,
+    FileDropDirective,
   ],
   imports: [
     BrowserModule,

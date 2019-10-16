@@ -26,7 +26,7 @@ export class CardService {
         const cardId = ref.id;
         const storageRef = firebase.storage().ref();
         const uploadTask = storageRef.child(`cards/${cardId}`).put(imgFile.file);
-
+        console.log(`card Id : ${cardId}`);
         return uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
           (snapshot) =>  {
             // upload in progress
