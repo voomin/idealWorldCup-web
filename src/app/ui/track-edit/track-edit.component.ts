@@ -7,8 +7,9 @@ import { TrackService } from 'src/app/services/track.service';
 import { Track } from 'src/app/models/track';
 import { CardService } from 'src/app/services/card.service';
 import { Card } from 'src/app/models/card';
-import { map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import * as _ from "lodash";
+import { ActivatedRoute, ParamMap } from '@angular/router';
 
 
 @Component({
@@ -30,15 +31,23 @@ export class TrackEditComponent implements OnInit {
     private authService: AuthService,
     private trackService: TrackService,
     private cardService: CardService,
+    private route: ActivatedRoute,
   ) {
 
   }
 
   ngOnInit() {
-    this.makingTrack = this.trackService.getMakingTrack()
-      .pipe(map((track:Track) => {
-        this.makingCards = this.cardService.getCardsinATrack(track.id);
-        return track;
+    // this.makingTrack = this.trackService.getMakingTrack()
+    //   .pipe(map((track:Track[]) => {
+    //     this.makingCards = this.cardService.getCardsinATrack(track.id);
+    //     return track;
+    //   }));
+    this.makingTrack  = this.route.paramMap.pipe(
+      switchMap((params: ParamMap) => {
+        const trackId = params.get('trackId');
+        console.log(trackId);
+        this.makingCards = this.cardService.getCardsinATrack(trackId);
+        return this.trackService.getTrack(trackId);
       }));
 
   }

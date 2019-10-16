@@ -1,0 +1,35 @@
+<div class="container">
+  <div class="row">
+    <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+      <button class="btn btn-outline-secondary h-100 w-100" (click)="newTrackClick()">
+          <h1 class="card-title text-center">
+              <fa-icon [icon]="faPlus" *ngIf="!newTrackPress"></fa-icon>
+              <div class="spinner-grow" *ngIf="newTrackPress" role="status"><span class="sr-only">Loading...</span></div>
+          </h1>
+      </button>
+        <!-- <div class="card h-100">
+          <div class="card-body">
+            <h1 class="card-title text-center">
+              <fa-icon [icon]="faPlus"></fa-icon>
+            </h1>
+          </div>
+        </div> -->
+      </div>
+    <ng-container *ngIf="makingTracks | async as makingTracks">
+        <div class="col-lg-3 col-md-4 col-sm-6 mb-4" *ngFor="let track of makingTracks">
+          <!-- <button class="btn btn-ouline-primary h-100 w-100"> -->
+              <div class="card h-100">
+                  <!-- <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a> -->
+                  <div class="card-body">
+                    <h4 class="card-title">
+                      <a [routerLink]="['/edit', track.id]">{{track.title}}</a>
+                    </h4>
+                    <p class="card-text">{{track.info}}</p>
+                    <small class="text-secondary">만든날짜 : {{track.createdAt | dateAgo}}</small>
+                  </div>
+                </div>
+          <!-- </button> -->
+        </div>
+    </ng-container>
+  </div>
+</div>

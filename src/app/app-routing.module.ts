@@ -4,11 +4,14 @@ import { Routes, RouterModule } from '@angular/router';
 import { HeaderComponent } from './ui/header/header.component';
 import { TracksComponent } from './ui/tracks/tracks.component';
 import { TrackEditComponent } from './ui/track-edit/track-edit.component';
+import { TrackWorkplaceComponent } from './ui/track-workplace/track-workplace.component';
 
 
 const routes: Routes = [
   { path: '', component: TracksComponent},
-  { path: 'new-track', component: TrackEditComponent}
+  { path: 'edit/:trackId', component: TrackEditComponent},
+  { path: 'workplace', component: TrackWorkplaceComponent},
+  // { path: '**', component: PageNotFoundComponent },
 ];
 
 @NgModule({
@@ -17,6 +20,7 @@ const routes: Routes = [
 })
 export class AppRoutingModule { }
 export const routingComponents = [
+  TrackWorkplaceComponent,
   TracksComponent,
   TrackEditComponent,
   HeaderComponent

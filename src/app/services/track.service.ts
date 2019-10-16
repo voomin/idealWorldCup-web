@@ -4,6 +4,7 @@ import { Track, TrackStatusType } from '../models/track';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,8 @@ export class TrackService {
   constructor(
     private afs: AngularFirestore,
     private authService: AuthService,
+    private router: Router, 
+    private route: ActivatedRoute
   ) { 
     this.tracksCollection = afs.collection<Track>('tracks');
     this.tracks = this.tracksCollection.valueChanges();
@@ -34,14 +37,12 @@ export class TrackService {
     };
     return this.tracksCollection.add(track)
       .then((ref) => {
-        // console.log('success');
         ref.set({id: ref.id}, {merge: true});
-        return ref;
+        this.router.navigate([`/edit/${ref.id}`], { relativeTo: this.route });
+        return true;
       })
       .catch(err => {
-        // console.log('fail');
-        // console.log(err);
-        return err;
+        return false;
       });
   }
   public getTrack(id: string) {
@@ -49,11 +50,11 @@ export class TrackService {
       map((tracks: Track[]) => tracks.find(track => track.id === id))
     );
   }
-  public getMakingTrack() {
+  public getMakingTracks() {
     const userData = this.authService.getUserDataORNull();
     if (!userData) { return ; }
     return this.tracks.pipe(
-      map((tracks: Track[]) => tracks.find(track => track.author === userData.uid && track.status === 'making'))
+      map((tracks: Track[]) => tracks.filter(track => track.author === userData.uid && track.status === 'making'))
     );
   }
   public updateTrackTitle(trackId: string, title: string) {

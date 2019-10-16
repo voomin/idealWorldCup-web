@@ -12,12 +12,14 @@ import { environment } from '../environments/environment';
 import { AppRoutingModule, routingComponents } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FileDropDirective } from './utils/file-drop.directive';
+import { DateAgoPipe } from './utils/date-ago.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     routingComponents,
     FileDropDirective,
+    DateAgoPipe,
   ],
   imports: [
     BrowserModule,

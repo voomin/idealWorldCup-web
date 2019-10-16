@@ -15,14 +15,14 @@ export class HeaderComponent implements OnInit {
   faPlusSquare = faPlusSquare;
   faEdit = faEdit;
 
-  makingTrack: Observable<Track>;
+  makingTrack: Observable<Track[]>;
   constructor(
     public authService: AuthService,
     public trackService: TrackService,
     ) { }
 
   ngOnInit() {
-    this.makingTrack = this.trackService.getMakingTrack();
+    this.makingTrack = this.trackService.getMakingTracks();
   }
   newTrackClick() { 
     
