@@ -6,5 +6,6 @@ export interface User {
   displayName: string;
   photoURL: string;
   emailVerified?: boolean;
-  makingTrackID?: Track['id'];
+  signAt?: number;
+  lastLoginAt?: number;
 }

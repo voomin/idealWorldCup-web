@@ -4,7 +4,6 @@ import { AngularFirestoreCollection, AngularFirestore } from '@angular/fire/fire
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { Upload } from '../models/upload';
-import { UploadService } from './upload.service';
 import * as firebase from 'firebase';
 
 @Injectable({
@@ -15,7 +14,6 @@ export class CardService {
   cards: Observable<Card[]>;
   constructor(
     private afs: AngularFirestore,
-    private uploadService: UploadService
   ) { 
     this.cardsCollection = afs.collection<Card>('cards');
     this.cards = this.cardsCollection.valueChanges();

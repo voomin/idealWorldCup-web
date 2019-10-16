@@ -9,6 +9,7 @@ export interface Track {
   hate: number;
   createdAt: number;
   status: TrackStatusType;
+  cardCount?: number;
 }
 export enum TrackStatusType {
   making = 'making',

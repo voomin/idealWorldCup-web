@@ -22,7 +22,6 @@ export class TrackEditComponent implements OnInit {
   faFileUpload = faFileUpload;
   dropzoneActive:boolean = false;
   
-  files: any = [];
   public makingTrack;
   public makingCards;
 
@@ -37,19 +36,13 @@ export class TrackEditComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.makingTrack = this.trackService.getMakingTrack()
-    //   .pipe(map((track:Track[]) => {
-    //     this.makingCards = this.cardService.getCardsinATrack(track.id);
-    //     return track;
-    //   }));
+    this.userData = this.authService.getUserDataORNull();
     this.makingTrack  = this.route.paramMap.pipe(
       switchMap((params: ParamMap) => {
         const trackId = params.get('trackId');
-        console.log(trackId);
         this.makingCards = this.cardService.getCardsinATrack(trackId);
         return this.trackService.getTrack(trackId);
       }));
-
   }
   dropzoneState($event: boolean) {
     this.dropzoneActive = $event;
@@ -74,9 +67,6 @@ export class TrackEditComponent implements OnInit {
       imgTotalSize: currentUpload.file.size,
     };
     this.cardService.addCard(card, currentUpload);
-  }
-  deleteAttachment(index) {
-    this.files.splice(index, 1);
   }
   deleteCard(id: string) {
     return this.cardService.deleteCard(id);
