@@ -1,13 +1,20 @@
 <ng-container *ngIf="tracks | async as tracks">
     <div class="container py-3">
-        <div class="card-group">
+        <div class="card-columns">
           <ng-container *ngFor="let track of tracks">
-            <div class="card border-0" style="max-width: 210px;">
+            <div class="card border-0" style="cursor: pointer;">
               <img src="{{track.thumbURL}}" class="card-img-top" alt="...">
+              <div class="cardCountinThumb">카드 {{track.cardCount}}개</div>
               <div class="card-body p-0 py-2">
-                <p class="uk-text-bold">{{track.title}}</p>
-                <p class="card-text">{{track.info}}</p>
-                <p class="card-text"><small class="text-muted">{{track.createdAt | dateAgo}}</small></p>
+                <p class="font-weight-bold m-0" title="{{track.title}}">
+                  {{track.title.slice(0,70)}}<span *ngIf="track.title.length > 70">...</span>
+                </p>
+                <p class="card-text m-0" title="{{track.info}}">
+                  {{track.info.slice(0,70)}}<span *ngIf="track.info.length > 70">...</span>
+                </p>
+                <p class="card-text m-0">
+                  <small class="text-muted">조회수 {{track.views}} 회</small> ● <small class="text-muted">{{track.createdAt | dateAgo}}</small>
+                </p>
               </div>
               <!-- <div class="card-footer">
                 <small class="text-muted">Last updated 3 mins ago</small>

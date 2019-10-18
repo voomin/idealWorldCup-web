@@ -1,0 +1,11 @@
+.cardCountinThumb {
+  position: absolute;
+  right: 0;
+  top: 0;
+  font-size: 8px;
+  color: white;
+  background-color: black;
+  margin: 5px 9px;
+  padding: 1px 3px;
+  font-weight: bold;
+}

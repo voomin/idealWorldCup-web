@@ -129,8 +129,7 @@
         ></textarea>
       </div>
 
-    <!-- <button type="submit" class="btn btn-outline-secondary mr-2">save</button> -->
-    <h1>{{osb.track?.cardCount}}</h1>
+    <!-- <h1>{{osb.track?.cardCount}}</h1> -->
     <p *ngIf="!osb.cards?.length >= 2" class="font-italic small text-secondary">카드를 2개 이상 등록하세요</p>
     <p *ngIf="!osb.track?.thumbURL" class="font-italic small text-secondary">미리보기 이미지를 지정해 주세요
         <fa-icon [icon]="faInfo" class="ml-2" placement="top" ngbTooltip="데이터가 존재하지 않을때, 보여질 이미지를 지정해 주세요."></fa-icon>
