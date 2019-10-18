@@ -19,7 +19,7 @@ export class TrackWorkplaceComponent implements OnInit {
 
   ngOnInit() {
     this.makingTracks = this.trackService.getMakingTracks();
-    this.showTracks = this.trackService.getShowTracks();
+    this.showTracks = this.trackService.getMyShowTracks();
   }
   newTrackClick() {
     if(!this.newTrackPress) {

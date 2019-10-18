@@ -1,5 +1,5 @@
 import { Component, OnInit, Directive, Output, Input, EventEmitter, HostBinding, HostListener } from '@angular/core';
-import { faFileUpload } from '@fortawesome/free-solid-svg-icons';
+import { faFileUpload, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { Upload } from 'src/app/models/upload';
 import { AuthService } from 'src/app/services/auth.service';
 import { User } from 'src/app/models/user';
@@ -20,6 +20,7 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 export class TrackEditComponent implements OnInit {
   userData: User;
   faFileUpload = faFileUpload;
+  faInfo = faInfoCircle;
   dropzoneActive:boolean = false;
   
   public makingTrack;
@@ -82,6 +83,9 @@ export class TrackEditComponent implements OnInit {
   trackInfoChange(id: string, event: any) {
     const changedTrackInfo = event.target.value;
     return this.trackService.updateTrackInfo(id, changedTrackInfo);
+  }
+  thumbSelectClick(id: string, thumbURL: string) {
+    return this.trackService.updateTrackThumbURL(id, thumbURL);
   }
   submitTrack(track: Track) {
     return this.trackService.submitTrack(track);

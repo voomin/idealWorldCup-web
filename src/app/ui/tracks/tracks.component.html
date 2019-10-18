@@ -1,2 +1,19 @@
-<p>tracks works!</p>
-<input type="text">
+<ng-container *ngIf="tracks | async as tracks">
+    <div class="container py-3">
+        <div class="card-group">
+          <ng-container *ngFor="let track of tracks">
+            <div class="card border-0" style="max-width: 210px;">
+              <img src="{{track.thumbURL}}" class="card-img-top" alt="...">
+              <div class="card-body p-0 py-2">
+                <p class="uk-text-bold">{{track.title}}</p>
+                <p class="card-text">{{track.info}}</p>
+                <p class="card-text"><small class="text-muted">{{track.createdAt | dateAgo}}</small></p>
+              </div>
+              <!-- <div class="card-footer">
+                <small class="text-muted">Last updated 3 mins ago</small>
+              </div> -->
+            </div>
+          </ng-container>
+        </div>
+    </div>
+</ng-container>

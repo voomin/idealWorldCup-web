@@ -9,6 +9,7 @@ export interface Track {
   hate: number;
   createdAt: number;
   status: TrackStatusType;
+  views: number;
   thumbURL?: string;
   cardCount?: number;
 }

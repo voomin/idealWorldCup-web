@@ -33,6 +33,7 @@ export class TrackService {
       info: '',
       like: 0,
       hate: 0,
+      views: 0,
       createdAt: new Date().getTime(),
       status: TrackStatusType.making
     };
@@ -60,6 +61,11 @@ export class TrackService {
       map((tracks: Track[]) => tracks.find(track => track.id === id))
     );
   }
+  public getShowTracks() {
+    return this.tracks.pipe(
+      map((tracks: Track[]) => tracks.filter(track => track.status === 'show'))
+    );
+  }
   public getMakingTracks() {
     const userData = this.authService.getUserDataORNull();
     if (!userData) { return ; }
@@ -67,7 +73,7 @@ export class TrackService {
       map((tracks: Track[]) => tracks.filter(track => track.author === userData.uid && track.status === 'making'))
     );
   }
-  public getShowTracks() {
+  public getMyShowTracks() {
     const userData = this.authService.getUserDataORNull();
     if (!userData) { return ; }
     return this.tracks.pipe(
@@ -84,6 +90,9 @@ export class TrackService {
       .then(() => { console.log(`정상적으로 변경되었습니다.`); })
       .catch((err) => { console.log(err); });
   }
-  public updateTrackCardCount(count: number, photoURL: string) {
+  public updateTrackThumbURL(trackId: string, thumbURL: string) {
+    return this.afs.doc(`tracks/${trackId}`).update({ thumbURL: thumbURL })
+    .then(() => { console.log(`정상적으로 변경되었습니다.`); })
+    .catch((err) => { console.log(err); });
   }
 }

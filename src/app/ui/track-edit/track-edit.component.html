@@ -29,7 +29,12 @@
     </div>
     <div class="card-columns mt-3">
         <ng-container *ngFor="let card of osb.cards; let i = index">
-          <div class="card">
+          <div class="card"
+          [ngClass]="{
+            'border': osb.track.thumbURL === card.photoURL,
+            'border-primary': osb.track.thumbURL === card.photoURL
+          }"
+          >
             <ng-container
               *ngIf="
                 (card.imgUploadingSize / card.imgTotalSize) * 100 as percentNum
@@ -63,7 +68,21 @@
             />
             <div class="card-body">
               <div class="form-group">
-                <label for="cardInputTitle" class="card-title">카드제목</label>
+                <div class="d-flex justify-content-between ">
+                  <label for="cardInputTitle" class="card-title">카드제목</label>
+                  <span class="small text-muted" *ngIf="osb.track.thumbURL !== card.photoURL; else selectThumb">
+                    <span (click)="thumbSelectClick(osb.track?.id, card.photoURL)" style="cursor: pointer;">미리보기 지정</span>
+                    <fa-icon [icon]="faInfo" class="ml-2" placement="top" ngbTooltip="데이터가 존재하지 않을때, 보여질 이미지를 지정해 주세요."></fa-icon>
+                  </span>
+                  <ng-template #selectThumb>
+                    <span class="text-primary">미리보기 지정됨</span>
+                  </ng-template>
+                  
+                  <!-- <a (click)="thumbSelectClick(osb.track?.id, card.photoURL)" class="btn btn-sm btn-outline-secondary">
+                    <fa-icon [icon]="faInfo" placement="top" ngbTooltip="데이터가 존재하지 않을때, 보여질 미리보기 이미지를 선택해 주세요."></fa-icon>
+                    미리보기 지정
+                  </a> -->
+                </div>
                 <input
                   type="text"
                   class="form-control"
@@ -73,14 +92,15 @@
                 />
                 <!-- <small id="emailHelp" class="form-text text-muted">이미지에 대한 글귀를 입력해주세요.</small> -->
               </div>
-              <p class="small text-muted text-right font-italic ">
+              <div class="text-right">
                 <span
                   (click)="deleteCard(card.id)"
+                  class="small text-muted font-italic"
                   style="cursor: pointer;"
                   title="임시저장된 해당카드의 이미지와 정보를 삭제합니다"
                   >삭제</span
                 >
-              </p>
+              </div>
             </div>
           </div>
         </ng-container>
@@ -110,12 +130,13 @@
       </div>
 
     <!-- <button type="submit" class="btn btn-outline-secondary mr-2">save</button> -->
-    <h1>{{osb.track.cardCount}}</h1>
-    <button class="btn btn-primary" *ngIf="osb.cards?.length >= 2; else cardLack" (click)="submitTrack(osb.track)" >게시</button>
-    <ng-template #cardLack>
-      <p class="font-italic small text-secondary">게시하려면 카드를 2개 이상 등록하세요.</p>
-    </ng-template>
-    
+    <h1>{{osb.track?.cardCount}}</h1>
+    <p *ngIf="!osb.cards?.length >= 2" class="font-italic small text-secondary">카드를 2개 이상 등록하세요</p>
+    <p *ngIf="!osb.track?.thumbURL" class="font-italic small text-secondary">미리보기 이미지를 지정해 주세요
+        <fa-icon [icon]="faInfo" class="ml-2" placement="top" ngbTooltip="데이터가 존재하지 않을때, 보여질 이미지를 지정해 주세요."></fa-icon>
+    </p>
+    <button class="btn btn-primary" *ngIf="!(osb.cards?.length >= 2 && osb.track?.thumbURL)" disabled>적용 및 게시</button>
+    <button class="btn btn-primary" *ngIf="osb.cards?.length >= 2 && osb.track?.thumbURL" (click)="submitTrack(osb.track)" >적용 및 게시</button>
   </div>
 </ng-container>
 <!-- 
