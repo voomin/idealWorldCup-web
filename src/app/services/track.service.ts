@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { NgbTypeaheadWindow } from '@ng-bootstrap/ng-bootstrap/typeahead/typeahead-window';
 
 @Injectable({
   providedIn: 'root'
@@ -45,6 +46,15 @@ export class TrackService {
         return false;
       });
   }
+  public submitTrack(track: Track) {
+    return this.afs.doc(`tracks/${track.id}`).update({ status: TrackStatusType.show })
+    .then(() => {
+      this.router.navigate([`/`], { relativeTo: this.route });
+    })
+    .catch(err => {
+
+    });
+  }
   public getTrack(id: string) {
     return this.tracks.pipe(
       map((tracks: Track[]) => tracks.find(track => track.id === id))
@@ -57,6 +67,13 @@ export class TrackService {
       map((tracks: Track[]) => tracks.filter(track => track.author === userData.uid && track.status === 'making'))
     );
   }
+  public getShowTracks() {
+    const userData = this.authService.getUserDataORNull();
+    if (!userData) { return ; }
+    return this.tracks.pipe(
+      map((tracks: Track[]) => tracks.filter(track => track.author === userData.uid && track.status === 'show'))
+    );
+  }
   public updateTrackTitle(trackId: string, title: string) {
     return this.afs.doc(`tracks/${trackId}`).update({ title: title })
       .then(() => { console.log(`정상적으로 변경되었습니다.`); })
@@ -66,5 +83,7 @@ export class TrackService {
     return this.afs.doc(`tracks/${trackId}`).update({ info: info })
       .then(() => { console.log(`정상적으로 변경되었습니다.`); })
       .catch((err) => { console.log(err); });
+  }
+  public updateTrackCardCount(count: number, photoURL: string) {
   }
 }

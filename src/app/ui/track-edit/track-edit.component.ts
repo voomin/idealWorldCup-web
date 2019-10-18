@@ -83,4 +83,7 @@ export class TrackEditComponent implements OnInit {
     const changedTrackInfo = event.target.value;
     return this.trackService.updateTrackInfo(id, changedTrackInfo);
   }
+  submitTrack(track: Track) {
+    return this.trackService.submitTrack(track);
+  }
 }

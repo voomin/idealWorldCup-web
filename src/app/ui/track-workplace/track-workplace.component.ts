@@ -10,6 +10,8 @@ import { TrackService } from 'src/app/services/track.service';
 export class TrackWorkplaceComponent implements OnInit {
   faPlus = faPlus;
   makingTracks;
+  showTracks;
+
   newTrackPress: boolean = false;
   constructor(
     private trackService: TrackService
@@ -17,6 +19,7 @@ export class TrackWorkplaceComponent implements OnInit {
 
   ngOnInit() {
     this.makingTracks = this.trackService.getMakingTracks();
+    this.showTracks = this.trackService.getShowTracks();
   }
   newTrackClick() {
     if(!this.newTrackPress) {
@@ -25,6 +28,5 @@ export class TrackWorkplaceComponent implements OnInit {
       })
     }
     this.newTrackPress = true;
-    
   }
 }
