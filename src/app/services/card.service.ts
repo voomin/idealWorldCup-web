@@ -72,5 +72,16 @@ export class CardService {
       map((cards: Card[]) => cards.filter(card => card.trackId === trackId))
       );
   }
+  public getPlayCards(trackId: string) {
+  }
+  private mix(oldArr: Card[]) {
+    let newArr = [];
+    const random = (max: number) => Math.floor(Math.random() * max);
+    while(oldArr.length !== 0) {
+      const obj = oldArr.splice(random(oldArr.length), 1)[0];
+      newArr.push(obj);
+    }
+    return newArr;
+  }
 
 }

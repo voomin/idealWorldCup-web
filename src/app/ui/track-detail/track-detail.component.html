@@ -1,0 +1,15 @@
+<ng-container *ngIf="track | async as track; else NotFoundTrack">
+  <div class="container">
+    <p>{{track.title}}</p>
+    <p>{{track.info}}</p>
+    <p>{{track.cardCount}}</p>
+    <p *ngFor="let card of cardList">
+      {{card.title}} / {{card.id}} / {{card.photoURL}}
+    </p>
+    
+  </div>
+</ng-container>
+<ng-template #NotFoundTrack>
+  Not Found Track
+</ng-template>
+

@@ -6,8 +6,43 @@
     <!-- <h5>
       고치기
     </h5> -->
+    <!-- <h1>{{osb.track?.cardCount}}</h1> -->
+    <div class="mb-3">
+        <p *ngIf="!osb.cards?.length >= 2" class="font-italic small text-secondary">카드를 2개 이상 등록하세요</p>
+        <p *ngIf="!osb.track?.thumbURL" class="font-italic small text-secondary">미리보기 이미지를 지정해 주세요
+            <fa-icon [icon]="faInfo" class="ml-2" placement="top" ngbTooltip="데이터가 존재하지 않을때, 보여질 이미지를 지정해 주세요."></fa-icon>
+        </p>
+        <div class="text-right">
+            <button class="btn btn-primary" *ngIf="!(osb.cards?.length >= 2 && osb.track?.thumbURL)" disabled>적용 및 게시</button>
+            <button class="btn btn-primary" *ngIf="osb.cards?.length >= 2 && osb.track?.thumbURL" (click)="submitTrack(osb.track)" >적용 및 게시</button>    
+        </div>
+        
+    </div>
+    <div class="form-group">
+        <label for="exampleInputTitle">이상형월드컵 제목 </label>
+        <input
+          type="title"
+          class="form-control"
+          id="exampleInputTitle"
+          aria-describedby="titleHelp"
+          placeholder="Enter Title"
+          value="{{ osb.track?.title }}"
+          (change)="trackTitleChange(osb.track.id, $event)"
+        />
+      </div>
+    <div class="form-group">
+      <label for="exampleFormControlTextarea1">설명</label>
+      <textarea
+        class="form-control"
+        id="exampleFormControlTextarea1"
+        rows="3"
+        placeholder="Enter information about this Track"
+        value="{{ osb.track?.info }}"
+        (change)="trackInfoChange(osb.track.id, $event)"
+      ></textarea>
+    </div>
     <div
-      class="p-5 w-100 btn btn-lg btn-outline-primary"
+      class="my-3 p-5 w-100 btn btn-lg btn-outline-primary"
       (click)="fileInput.click()"
       [ngClass]="{
         'btn-primary': dropzoneActive,
@@ -27,6 +62,7 @@
         (change)="uploadFile(osb.track.id, $event.target.files)"
       />
     </div>
+    <h5>카드 {{osb.track?.cardCount}}개</h5>
     <div class="card-columns mt-3">
         <ng-container *ngFor="let card of osb.cards; let i = index">
           <div class="card"
@@ -105,37 +141,7 @@
           </div>
         </ng-container>
     </div>
-    <div class="form-group">
-        <label for="exampleInputTitle">이상형월드컵 제목 </label>
-        <input
-          type="title"
-          class="form-control"
-          id="exampleInputTitle"
-          aria-describedby="titleHelp"
-          placeholder="Enter Title"
-          value="{{ osb.track?.title }}"
-          (change)="trackTitleChange(osb.track.id, $event)"
-        />
-      </div>
-      <div class="form-group">
-        <label for="exampleFormControlTextarea1">설명</label>
-        <textarea
-          class="form-control"
-          id="exampleFormControlTextarea1"
-          rows="3"
-          placeholder="Enter information about this Track"
-          value="{{ osb.track?.info }}"
-          (change)="trackInfoChange(osb.track.id, $event)"
-        ></textarea>
-      </div>
 
-    <!-- <h1>{{osb.track?.cardCount}}</h1> -->
-    <p *ngIf="!osb.cards?.length >= 2" class="font-italic small text-secondary">카드를 2개 이상 등록하세요</p>
-    <p *ngIf="!osb.track?.thumbURL" class="font-italic small text-secondary">미리보기 이미지를 지정해 주세요
-        <fa-icon [icon]="faInfo" class="ml-2" placement="top" ngbTooltip="데이터가 존재하지 않을때, 보여질 이미지를 지정해 주세요."></fa-icon>
-    </p>
-    <button class="btn btn-primary" *ngIf="!(osb.cards?.length >= 2 && osb.track?.thumbURL)" disabled>적용 및 게시</button>
-    <button class="btn btn-primary" *ngIf="osb.cards?.length >= 2 && osb.track?.thumbURL" (click)="submitTrack(osb.track)" >적용 및 게시</button>
   </div>
 </ng-container>
 <!-- 
