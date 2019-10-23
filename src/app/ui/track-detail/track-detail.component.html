@@ -1,11 +1,65 @@
-<ng-container *ngIf="track | async as track; else NotFoundTrack">
+<ng-container *ngIf="{
+  track: track | async,
+  play: play | async
+} as osb;">
   <div class="container">
-    <p>{{track.title}}</p>
-    <p>{{track.info}}</p>
-    <p>{{track.cardCount}}</p>
-    <p *ngFor="let card of cardList">
-      {{card.title}} / {{card.id}} / {{card.photoURL}}
-    </p>
+    <div class="row  my-3">
+      <div class="col col-lg-9">
+        <div id='playZone' *ngIf="osb.play?.cards as cards" class="bg-dark text-center p-3">
+            <ng-container *ngIf="cards.length !== 0; else waitCards">
+                <div class="">
+                  <div class="d-inline-block align-middle" style="width: 48%; min-width: 210px;">
+                    <img src="{{cards[0].photoURL}}" alt="" class="w-100">
+                    <div class="cardTitle">{{cards[0].title}}</div>
+                  </div>  
+                  <span class="d-inline-block align-middle font-weight-bold text-light px-2" style="width:4%;"> vs </span>
+                  <div class="d-inline-block align-middle" style="width: 48%; min-width: 210px;">
+                    <img src="{{cards[1].photoURL}}" alt="" class="w-100">
+                    <div class="cardTitle">{{cards[1].title}}</div>
+                  </div>  
+                  </div>
+            </ng-container>
+            <ng-template #waitCards>
+              <div class="text-center">
+                <div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status">
+                  <span class="sr-only">Loading...</span>
+                  </div>
+                </div>
+            </ng-template>
+        </div>
+        <div id="playManager" class="mt-1 mb-3">
+            <div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
+                <div class="btn-group mr-2" role="group" aria-label="First group">
+                  <button type="button" class="btn btn-secondary">1</button>
+                  <button type="button" class="btn btn-secondary">2</button>
+                  <button type="button" class="btn btn-secondary">3</button>
+                  <button type="button" class="btn btn-secondary">4</button>
+                </div>
+                <div class="btn-group mr-2" role="group" aria-label="Second group">
+                  <button type="button" class="btn btn-secondary">5</button>
+                  <button type="button" class="btn btn-secondary">6</button>
+                  <button type="button" class="btn btn-secondary">7</button>
+                </div>
+                <div class="btn-group" role="group" aria-label="Third group">
+                  <button type="button" class="btn btn-secondary">full</button>
+                </div>
+              </div>
+        </div>
+        <h5 class="font-weight-bold">{{osb.track?.title}}</h5>
+        <small class="text-muted">{{osb.track?.createdAt | date:"yyyy. MM. dd"}}</small>
+        <hr>
+        {{osb.track?.info}}
+        
+        
+        
+        
+      </div>
+      <!-- <div class="col col-lg-3">
+        추천트랙
+      </div> -->
+    </div>
+    
+    
     
   </div>
 </ng-container>

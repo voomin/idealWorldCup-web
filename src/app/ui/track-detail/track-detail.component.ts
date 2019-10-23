@@ -4,6 +4,7 @@ import { switchMap, map } from 'rxjs/operators';
 import { TrackService } from 'src/app/services/track.service';
 import { CardService } from 'src/app/services/card.service';
 import { Card } from 'src/app/models/card';
+import { PlayService } from 'src/app/services/play.service';
 
 @Component({
   selector: 'app-track-detail',
@@ -13,17 +14,19 @@ import { Card } from 'src/app/models/card';
 export class TrackDetailComponent implements OnInit {
   private trackId: string;
   track;
-  cardList = [];
+  play;
   constructor(
     private route: ActivatedRoute,
     private trackService: TrackService,
     private cardService: CardService,
+    private playService: PlayService
   ) { }
 
   ngOnInit() {
     this.track = this.route.paramMap.pipe(
       switchMap((params: ParamMap) => {
         this.trackId = params.get('trackId');
+        this.play = this.playService.getMyPlayTrack(this.trackId);
         return this.trackService.getTrack(this.trackId);
       }));
   }

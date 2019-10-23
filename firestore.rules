@@ -13,6 +13,11 @@ service cloud.firestore {
       allow update, delete: if get(/databases/$(database)/documents/tracks/$(resource.data.trackId)).data.author == request.auth.uid;
       allow create: if request.auth.uid != null;
     }
+    match /plays/{playId}{
+      allow read: if true;
+      allow update, delete: if resource.data.author == request.auth.uid;
+      allow create: if true;
+    }
 
     function isOwner(userId){
       return request.auth.uid == userId;

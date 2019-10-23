@@ -2,7 +2,7 @@
     <div class="container py-3">
         <div class="card-columns">
           <ng-container *ngFor="let track of tracks">
-            <div class="card border-0" style="cursor: pointer;" [routerLink]="['/v', track.id]" >
+            <div class="card border-0" style="cursor: pointer;" (click)="trackClick(track.id)" >
               <img src="{{track.thumbURL}}" class="card-img-top" alt="...">
               <div class="cardCountinThumb">카드 {{track.cardCount}}개</div>
               <div class="card-body p-0 py-2">
