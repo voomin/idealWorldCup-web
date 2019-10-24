@@ -5,6 +5,7 @@ import { TrackService } from 'src/app/services/track.service';
 import { CardService } from 'src/app/services/card.service';
 import { Card } from 'src/app/models/card';
 import { PlayService } from 'src/app/services/play.service';
+import { Play } from 'src/app/models/play';
 
 @Component({
   selector: 'app-track-detail',
@@ -29,6 +30,9 @@ export class TrackDetailComponent implements OnInit {
         this.play = this.playService.getMyPlayTrack(this.trackId);
         return this.trackService.getTrack(this.trackId);
       }));
+  }
+  cardClick(card: Card, play: Play, cardIndex: number) {
+    return this.playService.pickCard(card, play, cardIndex);
   }
 
 }

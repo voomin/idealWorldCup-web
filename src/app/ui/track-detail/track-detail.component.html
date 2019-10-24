@@ -7,15 +7,18 @@
       <div class="col col-lg-9">
         <div id='playZone' *ngIf="osb.play?.cards as cards" class="bg-dark text-center p-3">
             <ng-container *ngIf="cards.length !== 0; else waitCards">
-                <div class="">
-                  <div class="d-inline-block align-middle" style="width: 48%; min-width: 210px;">
-                    <img src="{{cards[0].photoURL}}" alt="" class="w-100">
-                    <div class="cardTitle">{{cards[0].title}}</div>
+                <div class="" *ngIf="{
+                  left:cards[osb.play?.pickList[0]],
+                  right:cards[osb.play?.pickList[1]]
+                } as card">
+                  <div class="d-inline-block align-middle cursor-pointer" style="width: 48%; min-width: 210px;" (click)="cardClick(card.left,osb.play,osb.play?.pickList[0])">
+                    <img src="{{card.left.photoURL}}" alt="" class="w-100">
+                    <div class="cardTitle">{{card.left.title}}</div>
                   </div>  
                   <span class="d-inline-block align-middle font-weight-bold text-light px-2" style="width:4%;"> vs </span>
-                  <div class="d-inline-block align-middle" style="width: 48%; min-width: 210px;">
-                    <img src="{{cards[1].photoURL}}" alt="" class="w-100">
-                    <div class="cardTitle">{{cards[1].title}}</div>
+                  <div class="d-inline-block align-middle cursor-pointer" style="width: 48%; min-width: 210px;" (click)="cardClick(card.right,osb.play,osb.play?.pickList[1])">
+                    <img src="{{card.right.photoURL}}" alt="" class="w-100">
+                    <div class="cardTitle">{{card.right.title}}</div>
                   </div>  
                   </div>
             </ng-container>
@@ -30,21 +33,23 @@
         <div id="playManager" class="mt-1 mb-3">
             <div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
                 <div class="btn-group mr-2" role="group" aria-label="First group">
-                  <button type="button" class="btn btn-secondary">1</button>
-                  <button type="button" class="btn btn-secondary">2</button>
-                  <button type="button" class="btn btn-secondary">3</button>
-                  <button type="button" class="btn btn-secondary">4</button>
+                  <button type="button" class="btn btn-light border-0 bg-white text-dark" disabled>
+                      {{osb.play?.nowRound}}/{{osb.play?.totalRound}} ({{osb.play?.nowRound / osb.play?.totalRound | percent}})
+                  </button>
                 </div>
                 <div class="btn-group mr-2" role="group" aria-label="Second group">
-                  <button type="button" class="btn btn-secondary">5</button>
-                  <button type="button" class="btn btn-secondary">6</button>
-                  <button type="button" class="btn btn-secondary">7</button>
+                  <button type="button" class="btn btn-secondary" *ngIf="osb.track?.cardCount >= 8">8</button>
+                  <button type="button" class="btn btn-secondary" *ngIf="osb.track?.cardCount >= 16">16</button>
+                  <button type="button" class="btn btn-secondary" *ngIf="osb.track?.cardCount >= 32">32</button>
+                  <button type="button" class="btn btn-secondary" *ngIf="osb.track?.cardCount >= 64">64</button>
+                  <button type="button" class="btn btn-secondary" *ngIf="osb.play?.totalStage > 64">{{osb.play?.totalStage}}</button>
                 </div>
                 <div class="btn-group" role="group" aria-label="Third group">
                   <button type="button" class="btn btn-secondary">full</button>
                 </div>
               </div>
         </div>
+        
         <h5 class="font-weight-bold">{{osb.track?.title}}</h5>
         <small class="text-muted">{{osb.track?.createdAt | date:"yyyy. MM. dd"}}</small>
         <hr>

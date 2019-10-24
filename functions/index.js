@@ -67,7 +67,10 @@ exports.PlayonCreate = functions.firestore.document(`plays/{trackId}`)
 
   return snap.ref.set({
     cards: cards,
-    totalStage: totalStage,
+    pickList: Array.from(Array(nowStage).keys()),
+    nowRound: 1,
+    totalRound: totalStage - 1,
     nowStage: nowStage,
+    totalStage: totalStage,
   },{merge:true});
 });

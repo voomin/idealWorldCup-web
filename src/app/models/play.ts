@@ -5,8 +5,10 @@ export interface Play {
   trackId: string;
   author: string; 
   createdAt: number;
+  nowRound?: number;
+  totalRound?: number;
   nowStage?: number;
-  TotalStage?: number;
+  totalStage?: number;
   pickList?: number[];
   cards?: Card[];
 }
