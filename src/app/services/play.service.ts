@@ -54,20 +54,27 @@ export class PlayService {
     );
   }
   public pickCard(card: Card, play: Play, cardIndex: number) {
-    // const obj: any = {};
-    if(play.pickList.length===2){
-      return ;
-    }
-
     play.pickList.shift();
     play.pickList.shift();
     play.pickList.push(cardIndex);
-    
     play.nowRound += 1;
 
     return this.afs.doc(`plays/${play.trackId}`).update({
       pickList: play.pickList,
       nowRound: play.nowRound
-    });
+    })
+    .then(() => { console.log('card pick success'); })
+    .catch((err) => { console.log(`fail : ${JSON.stringify(err)}`); });
+  }
+  public reset(play: Play, totalRound: number) {
+    const tempPickList = play.cards.slice(0, totalRound);
+    play.pickList = Array.from(tempPickList.keys());
+    return this.afs.doc(`plays/${play.trackId}`).update({
+      pickList: play.pickList,
+      nowRound: 1,
+      totalRound: totalRound,
+    })
+    .then(() => { console.log('card reset success'); })
+    .catch((err) => { console.log(`fail : ${JSON.stringify(err)}`); });
   }
 }

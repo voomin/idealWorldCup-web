@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { faRedo } from '@fortawesome/free-solid-svg-icons';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { switchMap, map } from 'rxjs/operators';
 import { TrackService } from 'src/app/services/track.service';
@@ -16,6 +17,7 @@ export class TrackDetailComponent implements OnInit {
   private trackId: string;
   track;
   play;
+  public faRedo = faRedo;
   constructor(
     private route: ActivatedRoute,
     private trackService: TrackService,
@@ -32,7 +34,11 @@ export class TrackDetailComponent implements OnInit {
       }));
   }
   cardClick(card: Card, play: Play, cardIndex: number) {
+    console.log(card);
     return this.playService.pickCard(card, play, cardIndex);
+  }
+  playReset(play:Play, totalRound: number) {
+    return this.playService.reset(play, totalRound);
   }
 
 }

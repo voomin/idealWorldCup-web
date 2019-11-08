@@ -69,7 +69,7 @@ exports.PlayonCreate = functions.firestore.document(`plays/{trackId}`)
     cards: cards,
     pickList: Array.from(Array(nowStage).keys()),
     nowRound: 1,
-    totalRound: totalStage - 1,
+    totalRound: totalStage,
     nowStage: nowStage,
     totalStage: totalStage,
   },{merge:true});
